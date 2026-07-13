@@ -1,4 +1,4 @@
-﻿﻿from app.persistence.repository import InMemoryRepository
+from app.persistence.repository import InMemoryRepository
 from app.models.user import User
 from app.models.place import Place
 from app.models.review import Review
@@ -92,7 +92,7 @@ class HBnBFacade:
     def get_all_reviews(self):
         return self.review_repo.get_all()
 
-        def get_reviews_by_place(self, place_id):
+    def get_reviews_by_place(self, place_id):
         place = self.get_place(place_id)
         return place.reviews if place else None
 
