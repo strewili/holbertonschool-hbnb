@@ -2,7 +2,7 @@
 
 **Project:** HBnB Evolution — Part 2 (Business Logic and API Endpoints)
 **Team:** Alhazmi Jana, Shouq Alqarni, Kayan Alnazari
-**Scope:** Task 5 (Review Endpoints) and Task 6 (Testing and Validation)
+**Scope:** Task 5 (Review Endpoints) and Task 6 (Testing and Validation — all entities)
 
 ---
 
@@ -15,198 +15,266 @@
 
 ---
 
-## 2. Setup Data Used for Testing
+## 2. Users — Endpoint Tests
 
-| Entity | ID | Notes |
-|---|---|---|
-| User | `60bffba8-d637-4839-91e0-c18f86d5f58e` | Kayan Alnazari, kayan@test.com |
-| Place | `db01c87b-946d-4ed5-8269-ac296f3226f0` | "Nice Apartment", owned by user above |
-| Review | `aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6` | Created, updated, then deleted during testing |
-
----
-
-## 3. Task 5 — Review Endpoint Tests (CRUD)
-
-### 3.1 POST /api/v1/reviews/ — Create Review
-
+### 2.1 POST /api/v1/users/ — Create User
 **Request:**
 ```bash
-curl -X POST http://127.0.0.1:5000/api/v1/reviews/ \
+curl -X POST http://127.0.0.1:5000/api/v1/users/ \
   -H "Content-Type: application/json" \
-  -d '{"text": "Great place", "rating": 5, "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e", "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"}'
+  -d '{"first_name": "Kayan", "last_name": "Alnazari", "email": "kayan3@test.com"}'
 ```
-
 **Result:** `201 Created`
 ```json
 {
-    "id": "aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6",
-    "text": "Great place",
-    "rating": 5,
-    "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e",
-    "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"
+    "id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13",
+    "first_name": "Kayan",
+    "last_name": "Alnazari",
+    "email": "kayan3@test.com"
 }
 ```
 **Status:** ✅ PASS
 
----
+### 2.2 GET /api/v1/users/{id} — Retrieve User
+**Result:** `200 OK` — returned the user created above.
+**Status:** ✅ PASS
 
-### 3.2 GET /api/v1/reviews/{id} — Retrieve Review
+### 2.3 GET /api/v1/users/ — List All Users
+**Result:** `200 OK` — returned array containing the created user.
+**Status:** ✅ PASS
 
+### 2.4 PUT /api/v1/users/{id} — Update User
 **Request:**
 ```bash
-curl http://127.0.0.1:5000/api/v1/reviews/aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6
+curl -X PUT http://127.0.0.1:5000/api/v1/users/f8d5aa63-89e1-49c3-93cb-ff13d235af13 \
+  -H "Content-Type: application/json" \
+  -d '{"first_name": "Kayan", "last_name": "Alnazari Updated", "email": "kayan3@test.com"}'
 ```
-
 **Result:** `200 OK`
 ```json
 {
-    "id": "aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6",
-    "text": "Great place",
-    "rating": 5,
-    "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e",
-    "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"
+    "id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13",
+    "first_name": "Kayan",
+    "last_name": "Alnazari Updated",
+    "email": "kayan3@test.com"
 }
 ```
-**Status:** ✅ PASS
+**Status:** ✅ PASS (after bug fix — see Section 6)
+
+### 2.5 Validation — Duplicate email
+**Request:** POST with an email already registered.
+**Result:** `400`
+```json
+{"error": "Email already registered"}
+```
+**Status:** ✅ PASS — duplicate email correctly rejected.
 
 ---
 
-### 3.3 PUT /api/v1/reviews/{id} — Update Review
+## 3. Places — Endpoint Tests
 
+### 3.1 POST /api/v1/places/ — Create Place
 **Request:**
 ```bash
-curl -X PUT http://127.0.0.1:5000/api/v1/reviews/aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6 \
+curl -X POST http://127.0.0.1:5000/api/v1/places/ \
   -H "Content-Type: application/json" \
-  -d '{"text": "Amazing place, updated!", "rating": 4, "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e", "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"}'
+  -d '{"title": "Nice Apartment", "description": "test", "price": 100, "latitude": 24.7, "longitude": 46.6, "owner_id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13", "amenities": []}'
 ```
+**Result:** `201 Created`
+```json
+{
+    "id": "80f068ed-4c87-48e8-86ec-773eac40107b",
+    "title": "Nice Apartment",
+    "description": "test",
+    "price": 100.0,
+    "latitude": 24.7,
+    "longitude": 46.6,
+    "owner_id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13"
+}
+```
+**Status:** ✅ PASS
+**Note:** `amenities` is a required field in the payload (even if empty `[]`).
 
+### 3.2 GET /api/v1/places/{id} — Retrieve Place (extended attributes)
 **Result:** `200 OK`
 ```json
 {
-    "id": "aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6",
-    "text": "Amazing place, updated!",
-    "rating": 4,
-    "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e",
-    "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"
+    "id": "80f068ed-4c87-48e8-86ec-773eac40107b",
+    "title": "Nice Apartment",
+    "description": "test",
+    "price": 100.0,
+    "latitude": 24.7,
+    "longitude": 46.6,
+    "owner": {
+        "id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13",
+        "first_name": "Kayan",
+        "last_name": "Alnazari Updated",
+        "email": "kayan3@test.com"
+    },
+    "amenities": []
 }
 ```
-**Status:** ✅ PASS — fields correctly reflected the update.
+**Status:** ✅ PASS — response correctly includes full owner details (`first_name`, `last_name`, `email`) and amenities list, matching the project's serialization requirement.
 
----
-
-### 3.4 DELETE /api/v1/reviews/{id} — Delete Review
-
-**Request:**
-```bash
-curl -X DELETE http://127.0.0.1:5000/api/v1/reviews/aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6
-```
-
+### 3.3 GET /api/v1/places/ — List All Places
 **Result:** `200 OK`
 ```json
-{
-    "message": "Review deleted successfully"
-}
+[
+    {
+        "id": "80f068ed-4c87-48e8-86ec-773eac40107b",
+        "title": "Nice Apartment",
+        "latitude": 24.7,
+        "longitude": 46.6
+    }
+]
 ```
 **Status:** ✅ PASS
 
-**Verification — GET after DELETE:**
-```bash
-curl http://127.0.0.1:5000/api/v1/reviews/aa4d4507-3e13-4fd8-9e50-0f80fd9eb6d6
-```
-**Result:** `404 Not Found`
-```json
-{
-    "error": "Review not found"
-}
-```
-**Status:** ✅ PASS — review correctly no longer retrievable after deletion.
-
----
-
-## 4. Task 6 — Validation and Edge Case Tests
-
-### 4.1 Invalid rating (out of 1–5 range)
-
+### 3.4 PUT /api/v1/places/{id} — Update Place
 **Request:**
 ```bash
-curl -i -X POST http://127.0.0.1:5000/api/v1/reviews/ \
+curl -X PUT http://127.0.0.1:5000/api/v1/places/80f068ed-4c87-48e8-86ec-773eac40107b \
   -H "Content-Type: application/json" \
-  -d '{"text": "Bad rating test", "rating": 10, "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e", "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"}'
+  -d '{"title": "Updated Apartment", "description": "updated test", "price": 150, "latitude": 24.7, "longitude": 46.6, "owner_id": "f8d5aa63-89e1-49c3-93cb-ff13d235af13", "amenities": []}'
 ```
-
-**Result:** `400 BAD REQUEST`
+**Result:** `200 OK`
 ```json
-{
-    "error": "rating must be an integer between 1 and 5"
-}
-```
-**Status:** ✅ PASS — rejected as expected, no crash.
-
----
-
-### 4.2 Empty review text
-
-**Request:**
-```bash
-curl -i -X POST http://127.0.0.1:5000/api/v1/reviews/ \
-  -H "Content-Type: application/json" \
-  -d '{"text": "", "rating": 4, "user_id": "60bffba8-d637-4839-91e0-c18f86d5f58e", "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"}'
-```
-
-**Result:** `400 BAD REQUEST`
-```json
-{
-    "error": "text is required and must be a string"
-}
+{"message": "Place updated successfully"}
 ```
 **Status:** ✅ PASS
 
 ---
 
-### 4.3 Nonexistent user_id
+## 4. Amenities — Endpoint Tests
 
+### 4.1 POST /api/v1/amenities/ — Create Amenity
 **Request:**
 ```bash
-curl -i -X POST http://127.0.0.1:5000/api/v1/reviews/ \
+curl -X POST http://127.0.0.1:5000/api/v1/amenities/ \
   -H "Content-Type: application/json" \
-  -d '{"text": "test review", "rating": 3, "user_id": "fake-id-999", "place_id": "db01c87b-946d-4ed5-8269-ac296f3226f0"}'
+  -d '{"name": "Wi-Fi"}'
 ```
-
-**Result:** `400 BAD REQUEST`
+**Result:** `201 Created`
 ```json
-{
-    "error": "User or Place not found"
-}
+{"id": "395a640d-4b32-43e0-9346-d777d9243567", "name": "Wi-Fi"}
 ```
-**Status:** ✅ PASS — foreign key relationship correctly validated before creating the review.
+**Status:** ✅ PASS
+
+### 4.2 GET /api/v1/amenities/ — List All Amenities
+**Result:** `200 OK` — returned array with the created amenity.
+**Status:** ✅ PASS
+
+### 4.3 GET /api/v1/amenities/{id} — Retrieve Amenity
+**Result:** `200 OK` — returned the amenity's `id` and `name`.
+**Status:** ✅ PASS
+
+### 4.4 PUT /api/v1/amenities/{id} — Update Amenity
+**Request:**
+```bash
+curl -X PUT http://127.0.0.1:5000/api/v1/amenities/395a640d-4b32-43e0-9346-d777d9243567 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Free Wi-Fi"}'
+```
+**Result:** `200 OK`
+```json
+{"id": "395a640d-4b32-43e0-9346-d777d9243567", "name": "Free Wi-Fi"}
+```
+**Status:** ✅ PASS
 
 ---
 
-## 5. Summary Table
+## 5. Reviews — Endpoint Tests (Task 5 core requirement)
 
-| # | Test | Endpoint | Expected | Actual | Result |
-|---|---|---|---|---|---|
-| 1 | Create valid review | POST /reviews/ | 201 | 201 | ✅ PASS |
-| 2 | Get review by id | GET /reviews/{id} | 200 | 200 | ✅ PASS |
-| 3 | Update review | PUT /reviews/{id} | 200 | 200 | ✅ PASS |
-| 4 | Delete review | DELETE /reviews/{id} | 200 | 200 | ✅ PASS |
-| 5 | Get deleted review | GET /reviews/{id} | 404 | 404 | ✅ PASS |
-| 6 | Rating out of range | POST /reviews/ | 400 | 400 | ✅ PASS |
-| 7 | Empty text | POST /reviews/ | 400 | 400 | ✅ PASS |
-| 8 | Nonexistent user_id | POST /reviews/ | 400 | 400 | ✅ PASS |
+### 5.1 POST /api/v1/reviews/ — Create Review
+**Result:** `201 Created` — review created and correctly linked to user and place.
+**Status:** ✅ PASS
 
-**Total: 8/8 tests passed.**
+### 5.2 GET /api/v1/reviews/{id} — Retrieve Review
+**Result:** `200 OK` — returned full review data.
+**Status:** ✅ PASS
+
+### 5.3 PUT /api/v1/reviews/{id} — Update Review
+**Result:** `200 OK` — updated fields correctly reflected (`text`, `rating`).
+**Status:** ✅ PASS
+
+### 5.4 DELETE /api/v1/reviews/{id} — Delete Review
+**Result:** `200 OK` — `{"message": "Review deleted successfully"}`
+**Status:** ✅ PASS
+
+### 5.5 GET after DELETE — Confirm Deletion
+**Result:** `404 Not Found` — `{"error": "Review not found"}`
+**Status:** ✅ PASS
+
+### 5.6 Validation — Rating out of range (>5)
+**Result:** `400 BAD REQUEST` — `{"error": "rating must be an integer between 1 and 5"}`
+**Status:** ✅ PASS
+
+### 5.7 Validation — Empty review text
+**Result:** `400 BAD REQUEST` — `{"error": "text is required and must be a string"}`
+**Status:** ✅ PASS
+
+### 5.8 Validation — Nonexistent user_id
+**Result:** `400 BAD REQUEST` — `{"error": "User or Place not found"}`
+**Status:** ✅ PASS
 
 ---
 
 ## 6. Issues Found and Resolved During Development
 
-1. **IndentationError in `facade.py`** — the `get_review` method definition and its body were incorrectly indented (mixed spacing), causing the app to fail on startup. Fixed by correcting indentation to standard 4-space blocks.
-2. **Circular import in `app/persistence/__init__.py`** — this file incorrectly contained a duplicate copy of the `create_app()` factory function (which belongs in `app/__init__.py`), including an import from `app.api.v1.users`. Since the persistence layer must not depend on the API layer, this caused a circular import. Fixed by clearing `persistence/__init__.py` down to a simple package docstring.
+1. **IndentationError in `facade.py` (`get_review`)** — the method definition and body had inconsistent indentation, crashing the app at import time. Fixed by correcting indentation to standard 4-space blocks.
+
+2. **Circular import in `app/persistence/__init__.py`** — this file incorrectly contained a duplicate `create_app()` factory (which belongs in `app/__init__.py`), including an import from `app.api.v1.users`. Since the persistence layer must not depend on the API layer, this caused a circular import. Fixed by clearing `persistence/__init__.py` down to a simple package docstring.
+
+3. **`update_user` returned `None` (`AttributeError: 'NoneType' object has no attribute 'id'`)** — the original implementation was:
+   ```python
+   def update_user(self, user_id, data):
+       return self.user_repo.update(user_id, data)
+   ```
+   `repository.update()` does not return the updated object, so the endpoint crashed trying to read `.id` off `None`. Fixed to fetch and return the updated object explicitly:
+   ```python
+   def update_user(self, user_id, data):
+       user = self.user_repo.get(user_id)
+       if not user:
+           return None
+       self.user_repo.update(user_id, data)
+       return self.user_repo.get(user_id)
+   ```
 
 ---
 
-## 7. Conclusion
+## 7. Summary Table
 
-All CRUD operations for the Review entity function as expected, and validation logic correctly rejects invalid input (bad rating range, empty text, nonexistent related entities) with appropriate `400` status codes rather than failing silently or crashing. The Facade correctly mediates between the Presentation (API) and Business Logic layers. Swagger documentation at `/api/v1/` accurately reflects all four namespaces (`users`, `amenities`, `places`, `reviews`).
+| # | Entity | Test | Endpoint | Expected | Actual | Result |
+|---|---|---|---|---|---|---|
+| 1 | User | Create | POST /users/ | 201 | 201 | ✅ |
+| 2 | User | Get by id | GET /users/{id} | 200 | 200 | ✅ |
+| 3 | User | List all | GET /users/ | 200 | 200 | ✅ |
+| 4 | User | Update | PUT /users/{id} | 200 | 200 | ✅ |
+| 5 | User | Duplicate email rejected | POST /users/ | 400 | 400 | ✅ |
+| 6 | Place | Create | POST /places/ | 201 | 201 | ✅ |
+| 7 | Place | Get by id (extended attrs) | GET /places/{id} | 200 | 200 | ✅ |
+| 8 | Place | List all | GET /places/ | 200 | 200 | ✅ |
+| 9 | Place | Update | PUT /places/{id} | 200 | 200 | ✅ |
+| 10 | Amenity | Create | POST /amenities/ | 201 | 201 | ✅ |
+| 11 | Amenity | List all | GET /amenities/ | 200 | 200 | ✅ |
+| 12 | Amenity | Get by id | GET /amenities/{id} | 200 | 200 | ✅ |
+| 13 | Amenity | Update | PUT /amenities/{id} | 200 | 200 | ✅ |
+| 14 | Review | Create | POST /reviews/ | 201 | 201 | ✅ |
+| 15 | Review | Get by id | GET /reviews/{id} | 200 | 200 | ✅ |
+| 16 | Review | Update | PUT /reviews/{id} | 200 | 200 | ✅ |
+| 17 | Review | Delete | DELETE /reviews/{id} | 200 | 200 | ✅ |
+| 18 | Review | Get after delete | GET /reviews/{id} | 404 | 404 | ✅ |
+| 19 | Review | Invalid rating rejected | POST /reviews/ | 400 | 400 | ✅ |
+| 20 | Review | Empty text rejected | POST /reviews/ | 400 | 400 | ✅ |
+| 21 | Review | Nonexistent user_id rejected | POST /reviews/ | 400 | 400 | ✅ |
+
+**Total: 21/21 tests passed.**
+
+---
+
+## 8. Conclusion
+
+All four entities (Users, Places, Amenities, Reviews) support their required CRUD operations correctly through the Presentation layer (Flask + flask-restx), with the Facade correctly mediating access to the Business Logic and Persistence layers. Validation logic rejects invalid input (out-of-range ratings, empty required fields, duplicate emails, nonexistent related entities) with appropriate `400` status codes instead of crashing. Extended serialization for Place correctly nests full Owner details and the Amenities list, per the project's requirement. Swagger documentation at `/api/v1/` accurately reflects all four registered namespaces.
+
+Three bugs were identified and fixed during testing (see Section 6): an indentation error, a circular import, and a missing return value in `update_user`. All are resolved and verified against the running server.
 
