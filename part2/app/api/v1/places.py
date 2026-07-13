@@ -45,7 +45,15 @@ class PlaceList(Resource):
             return {'error': 'Invalid input data'}, 400
         try:
             new_place = facade.create_place(place_data)
-            return new_place.to_dict(), 201
+            return {
+                 "id": new_place.id,
+                 "title": new_place.title,
+                 "description": new_place.description,
+                 "price": new_place.price,
+                 "latitude": new_place.latitude,
+                 "longitude": new_place.longitude,
+                 "owner_id": new_place.owner.id
+             }, 201
         except ValueError as e:
             return {'error': str(e)}, 400
 
