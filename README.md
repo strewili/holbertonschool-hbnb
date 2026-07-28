@@ -11,5 +11,5 @@
 - requirements.txt - dependencies
 
 ## Setup
-pip install -r requirements.txt
-python run.py
+pip install -r requirements.txt in part2/app
+ python3 -m app.run in part2
