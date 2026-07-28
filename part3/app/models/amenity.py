@@ -1,29 +1,50 @@
-﻿#!/usr/bin/python3
+#!/usr/bin/python3
 """Module for Amenity class."""
+
 from app.models.base_model import BaseModel
+from app.extensions import db
+
+
+place_amenity = db.Table(
+    "place_amenity",
+    db.Column(
+        "place_id",
+        db.String(36),
+        db.ForeignKey("places.id"),
+        primary_key=True
+    ),
+    db.Column(
+        "amenity_id",
+        db.String(36),
+        db.ForeignKey("amenities.id"),
+        primary_key=True
+    )
+)
 
 
 class Amenity(BaseModel):
-    """Represents an amenity associated with a Place."""
+    """Represents an amenity associated with places."""
+
+    __tablename__ = "amenities"
+
+    name = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
+    places = db.relationship(
+        "Place",
+        secondary=place_amenity,
+        backref="amenities"
+    )
+
 
     def __init__(self, name):
-        super().__init__()
         self.name = name
 
-    @property
-    def name(self):
-        return self._name
 
-    @name.setter
-    def name(self, value):
-        if not value or not isinstance(value, str):
-            raise ValueError("name is required and must be a string")
-        if len(value) > 50:
-            raise ValueError("name must not exceed 50 characters")
-        self._name = value
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name
         }
-

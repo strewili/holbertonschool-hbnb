@@ -1,4 +1,4 @@
-﻿from app.persistence.repository import InMemoryRepository
+﻿from app.persistence.repository import SQLAlchemyRepository
 from app.models.user import User
 from app.models.place import Place
 from app.models.review import Review
@@ -6,13 +6,15 @@ from app.models.amenity import Amenity
 
 
 class HBnBFacade:
-    def __init__(self):
-        self.user_repo = InMemoryRepository()
-        self.place_repo = InMemoryRepository()
-        self.review_repo = InMemoryRepository()
-        self.amenity_repo = InMemoryRepository()
 
-    # â”€â”€ Users â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    def __init__(self):
+        self.user_repo = SQLAlchemyRepository(User)
+        self.place_repo = SQLAlchemyRepository(Place)
+        self.review_repo = SQLAlchemyRepository(Review)
+        self.amenity_repo = SQLAlchemyRepository(Amenity)
+
+    # Users
+
     def create_user(self, user_data):
         user = User(**user_data)
         self.user_repo.add(user)
@@ -28,13 +30,11 @@ class HBnBFacade:
         return self.user_repo.get_all()
 
     def update_user(self, user_id, data):
-        user = self.user_repo.get(user_id)
-        if not user:
-            return None
-        self.user_repo.update(user_id, data)
-        return self.user_repo.get(user_id)
+        return self.user_repo.update(user_id, data)
 
-    # â”€â”€ Amenities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    # Amenities
+
     def create_amenity(self, amenity_data):
         amenity = Amenity(**amenity_data)
         self.amenity_repo.add(amenity)
@@ -49,11 +49,15 @@ class HBnBFacade:
     def update_amenity(self, amenity_id, data):
         return self.amenity_repo.update(amenity_id, data)
 
-    # â”€â”€ Places â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    # Places
+
     def create_place(self, place_data):
         owner = self.get_user(place_data.get("owner_id"))
+
         if not owner:
             return None
+
         place = Place(
             title=place_data["title"],
             description=place_data.get("description", ""),
@@ -62,6 +66,7 @@ class HBnBFacade:
             longitude=place_data["longitude"],
             owner=owner
         )
+
         self.place_repo.add(place)
         return place
 
@@ -75,24 +80,20 @@ class HBnBFacade:
         return self.place_repo.update(place_id, data)
 
     def delete_place(self, place_id):
-        place = self.get_place(place_id)
-        if not place:
-            return False
-        self.place_repo.delete(place_id)
-        return True
+        return self.place_repo.delete(place_id)
 
-    # â”€â”€ Reviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+    # Reviews
+
     def create_review(self, review_data):
         place = self.get_place(review_data.get("place_id"))
         user = self.get_user(review_data.get("user_id"))
+
         if not place or not user:
             return None
 
-        if place.owner.id == user.id:
+        if place.owner_id == user.id:
             raise ValueError("You cannot review your own place")
-
-        if any(r.user.id == user.id for r in place.reviews):
-            raise ValueError("You have already reviewed this place")
 
         review = Review(
             text=review_data["text"],
@@ -100,8 +101,8 @@ class HBnBFacade:
             place=place,
             user=user
         )
+
         self.review_repo.add(review)
-        place.add_review(review)
         return review
 
     def get_review(self, review_id):
@@ -110,32 +111,8 @@ class HBnBFacade:
     def get_all_reviews(self):
         return self.review_repo.get_all()
 
-    def get_reviews_by_place(self, place_id):
-        place = self.get_place(place_id)
-        return place.reviews if place else None
-
     def update_review(self, review_id, data):
-        review = self.get_review(review_id)
-
-        if not review:
-            return None
-
-        if "text" in data:
-            review.text = data["text"]
-
-        if "rating" in data:
-            review.rating = data["rating"]
-
-        return review
+        return self.review_repo.update(review_id, data)
 
     def delete_review(self, review_id):
-        review = self.get_review(review_id)
-
-        if not review:
-            return False
-
-        if review in review.place.reviews:
-            review.place.reviews.remove(review)
-
-        self.review_repo.delete(review_id)
-        return True
+        return self.review_repo.delete(review_id)

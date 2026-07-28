@@ -7,7 +7,7 @@ from app.extensions import db
 
 
 class BaseModel(db.Model):
-    """Base class for all HBnB database models."""
+    """Base class for all HBnB models."""
 
     __abstract__ = True
 
