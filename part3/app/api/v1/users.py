@@ -1,12 +1,8 @@
-﻿#!/usr/bin/python3
-"""User endpoints â€” POST, GET, PUT."""
+#!/usr/bin/python3
+"""User endpoints — POST, GET, PUT."""
 from flask_restx import Namespace, Resource, fields
-<<<<<<< HEAD:part3/app/api/v1/users.py
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
-=======
-from app.services import hbnb_facade
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/users.py
 
 api = Namespace("users", description="User operations")
 
@@ -40,10 +36,10 @@ class UserList(Resource):
         if not claims.get('is_admin', False):
             return {"error": "Admin privileges required"}, 403
         user_data = api.payload
-        if hbnb_facade.get_user_by_email(user_data["email"]):
+        if facade.get_user_by_email(user_data["email"]):
             return {"error": "Email already registered"}, 400
         try:
-            user = hbnb_facade.create_user(user_data)
+            user = facade.create_user(user_data)
         except ValueError as e:
             return {"error": str(e)}, 400
         return {
@@ -63,7 +59,7 @@ class UserList(Resource):
                 "last_name": u.last_name,
                 "email": u.email
             }
-            for u in hbnb_facade.get_all_users()
+            for u in facade.get_all_users()
         ], 200
 
 
@@ -74,7 +70,7 @@ class UserResource(Resource):
     @api.response(404, "User not found")
     def get(self, user_id):
         """Get user details by ID."""
-        user = hbnb_facade.get_user(user_id)
+        user = facade.get_user(user_id)
         if not user:
             return {"error": "User not found"}, 404
         return {
@@ -91,7 +87,6 @@ class UserResource(Resource):
     @api.response(400, "Invalid input data")
     @api.response(403, "Unauthorized action")
     def put(self, user_id):
-<<<<<<< HEAD:part3/app/api/v1/users.py
         """Update user information (own account, or any account if admin)."""
         current_user_id = get_jwt_identity()
         claims = get_jwt()
@@ -100,10 +95,6 @@ class UserResource(Resource):
             return {"error": "Unauthorized action"}, 403
 
         if not facade.get_user(user_id):
-=======
-        """Update user information."""
-        if not hbnb_facade.get_user(user_id):
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/users.py
             return {"error": "User not found"}, 404
 
         data = api.payload
@@ -116,11 +107,7 @@ class UserResource(Resource):
                 return {"error": "Email already in use"}, 400
 
         try:
-<<<<<<< HEAD:part3/app/api/v1/users.py
             user = facade.update_user(user_id, data)
-=======
-            user = hbnb_facade.update_user(user_id, api.payload)
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/users.py
         except ValueError as e:
             return {"error": str(e)}, 400
         return {

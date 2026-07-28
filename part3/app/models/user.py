@@ -52,7 +52,6 @@ class User(BaseModel):
         if not re.match(pattern, value):
             raise ValueError("email must follow a valid format")
         self._email = value
-<<<<<<< HEAD:part3/app/models/user.py
 
     @property
     def password(self):
@@ -67,5 +66,3 @@ class User(BaseModel):
     def verify_password(self, password):
         """Check a plaintext password against the stored hash."""
         return bcrypt.check_password_hash(self.password, password)
-=======
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/models/user.py

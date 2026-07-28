@@ -1,9 +1,4 @@
-<<<<<<< HEAD:part3/app/models/place.py
 ﻿#!/usr/bin/python3
-=======
-
-#!/usr/bin/python3
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/models/place.py
 """Module for Place class."""
 from app.models.base_model import BaseModel
 

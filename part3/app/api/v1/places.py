@@ -1,11 +1,6 @@
-<<<<<<< HEAD:part3/app/api/v1/places.py
-﻿from flask_restx import Namespace, Resource, fields
+from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.services import facade
-=======
-from flask_restx import Namespace, Resource, fields
-from app.services import hbnb_facade
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/places.py
 
 api = Namespace('places', description='Place operations')
 
@@ -52,21 +47,10 @@ class PlaceList(Resource):
         place_data = api.payload
         place_data['owner_id'] = current_user_id
 
-<<<<<<< HEAD:part3/app/api/v1/places.py
         try:
             new_place = facade.create_place(place_data)
             if not new_place:
                 return {'error': 'Invalid input data'}, 400
-=======
-        if owner is None or len(owner) == 0:
-            return {'error': 'Invalid input data.'}, 400
-
-        user = hbnb_facade.get_user(owner)
-        if not user:
-            return {'error': 'Invalid input data'}, 400
-        try:
-            new_place = hbnb_facade.create_place(place_data)
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/places.py
             return {
                  "id": new_place.id,
                  "title": new_place.title,
@@ -82,7 +66,7 @@ class PlaceList(Resource):
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        places = hbnb_facade.get_all_places()
+        places = facade.get_all_places()
         return [
             {
                 "id": place.id,
@@ -99,7 +83,7 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        place = hbnb_facade.get_place(place_id)
+        place = facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
         return place.to_dict(), 200
@@ -111,15 +95,9 @@ class PlaceResource(Resource):
     @api.response(400, 'Invalid input data')
     @api.response(403, 'Unauthorized action')
     def put(self, place_id):
-<<<<<<< HEAD:part3/app/api/v1/places.py
         """Update a place's information (owner or admin)"""
         current_user_id = get_jwt_identity()
         place = facade.get_place(place_id)
-=======
-        """Update a place's information"""
-        place_data = api.payload
-        place = hbnb_facade.get_place(place_id)
->>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/places.py
         if not place:
             return {'error': 'Place not found'}, 404
 
@@ -131,7 +109,7 @@ class PlaceResource(Resource):
 
         place_data = api.payload
         try:
-            hbnb_facade.update_place(place_id, place_data)
+            facade.update_place(place_id, place_data)
             return {'message': 'Place updated successfully'}, 200
         except ValueError as e:
             return {'error': str(e)}, 400

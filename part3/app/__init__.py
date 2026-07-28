@@ -2,7 +2,7 @@
 from flask_restx import Api
 
 from app.config import config
-from app.extensions import bcrypt, jwt
+from app.extensions import bcrypt, jwt, db
 
 from app.api.v1.users import api as users_ns
 from app.api.v1.auth import api as auth_ns
@@ -17,6 +17,7 @@ def create_app(config_class=config['default']):
 
     bcrypt.init_app(app)
     jwt.init_app(app)
+    db.init_app(app)
 
     api = Api(
         app,
