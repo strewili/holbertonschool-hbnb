@@ -1,6 +1,11 @@
+<<<<<<< HEAD:part3/app/api/v1/amenities.py
 ﻿from flask_restx import Namespace, Resource, fields
 from flask_jwt_extended import jwt_required, get_jwt
 from app.services import facade
+=======
+from flask_restx import Namespace, Resource, fields
+from app.services import hbnb_facade
+>>>>>>> d75f672c609befe8f3c9a4fd6b4defa84bb1f822:part2/app/api/v1/amenities.py
 
 api = Namespace("amenities", description="Amenity operations")
 
@@ -26,7 +31,7 @@ class AmenityList(Resource):
         amenity_data = api.payload
 
         try:
-            amenity = facade.create_amenity(amenity_data)
+            amenity = hbnb_facade.create_amenity(amenity_data)
         except ValueError as e:
             return {"error": str(e)}, 400
 
@@ -35,7 +40,7 @@ class AmenityList(Resource):
     @api.response(200, "List of amenities retrieved successfully")
     def get(self):
         """Retrieve all amenities."""
-        amenities = facade.get_all_amenities()
+        amenities = hbnb_facade.get_all_amenities()
         return [amenity.to_dict() for amenity in amenities], 200
 
 
@@ -46,7 +51,7 @@ class AmenityResource(Resource):
     @api.response(404, "Amenity not found")
     def get(self, amenity_id):
         """Retrieve an amenity by ID."""
-        amenity = facade.get_amenity(amenity_id)
+        amenity = hbnb_facade.get_amenity(amenity_id)
 
         if not amenity:
             return {"error": "Amenity not found"}, 404
@@ -64,16 +69,16 @@ class AmenityResource(Resource):
         if not claims.get('is_admin', False):
             return {"error": "Admin privileges required"}, 403
 
-        amenity = facade.get_amenity(amenity_id)
+        amenity = hbnb_facade.get_amenity(amenity_id)
 
         if not amenity:
             return {"error": "Amenity not found"}, 404
 
         try:
-            facade.update_amenity(amenity_id, api.payload)
+            hbnb_facade.update_amenity(amenity_id, api.payload)
         except ValueError as e:
             return {"error": str(e)}, 400
 
-        updated = facade.get_amenity(amenity_id)
+        updated = hbnb_facade.get_amenity(amenity_id)
         return updated.to_dict(), 200
 
