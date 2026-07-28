@@ -26,7 +26,7 @@ class User(BaseModel):
         nullable=False
     )
 
-    password = db.Column(
+    password_hash = db.Column(
         db.String(128),
         nullable=False
     )
@@ -48,27 +48,29 @@ class User(BaseModel):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.set_password(password)
+        self.password = password
         self.is_admin = is_admin
 
 
-    def set_password(self, password):
-        """Hash and set user password."""
+    @property
+    def password(self):
+        raise AttributeError("Password is not readable")
 
-        if not password or not isinstance(password, str):
+
+    @password.setter
+    def password(self, value):
+        if not value or not isinstance(value, str):
             raise ValueError(
                 "password is required and must be a string"
             )
 
-        self.password = bcrypt.generate_password_hash(
-            password
+        self.password_hash = bcrypt.generate_password_hash(
+            value
         ).decode("utf-8")
 
 
     def verify_password(self, password):
-        """Verify password."""
-
         return bcrypt.check_password_hash(
-            self.password,
+            self.password_hash,
             password
         )
