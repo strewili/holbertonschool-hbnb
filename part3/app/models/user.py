@@ -48,30 +48,27 @@ class User(BaseModel):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.password = password
+        self.set_password(password)
         self.is_admin = is_admin
 
 
-    @property
-    def password(self):
-        return self._password
+    def set_password(self, password):
+        """Hash and set user password."""
 
-
-    @password.setter
-    def password(self, value):
-        if not value or not isinstance(value, str):
+        if not password or not isinstance(password, str):
             raise ValueError(
                 "password is required and must be a string"
             )
 
-        self._password = bcrypt.generate_password_hash(
-            value
+        self.password = bcrypt.generate_password_hash(
+            password
         ).decode("utf-8")
 
 
     def verify_password(self, password):
-        return bcrypt.check_password_hash(
-        self.password,
-        password
-    )
+        """Verify password."""
 
+        return bcrypt.check_password_hash(
+            self.password,
+            password
+        )
