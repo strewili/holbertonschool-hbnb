@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from app.services import facade
+from app.services import hbnb_facade
 
 api = Namespace('places', description='Place operations')
 
@@ -40,11 +40,11 @@ class PlaceList(Resource):
         if owner is None or len(owner) == 0:
             return {'error': 'Invalid input data.'}, 400
 
-        user = facade.get_user(owner)
+        user = hbnb_facade.get_user(owner)
         if not user:
             return {'error': 'Invalid input data'}, 400
         try:
-            new_place = facade.create_place(place_data)
+            new_place = hbnb_facade.create_place(place_data)
             return {
                  "id": new_place.id,
                  "title": new_place.title,
@@ -60,7 +60,7 @@ class PlaceList(Resource):
     @api.response(200, 'List of places retrieved successfully')
     def get(self):
         """Retrieve a list of all places"""
-        places = facade.get_all_places()
+        places = hbnb_facade.get_all_places()
         return [
             {
                 "id": place.id,
@@ -77,7 +77,7 @@ class PlaceResource(Resource):
     @api.response(404, 'Place not found')
     def get(self, place_id):
         """Get place details by ID"""
-        place = facade.get_place(place_id)
+        place = hbnb_facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
         return place.to_dict(), 200
@@ -89,11 +89,11 @@ class PlaceResource(Resource):
     def put(self, place_id):
         """Update a place's information"""
         place_data = api.payload
-        place = facade.get_place(place_id)
+        place = hbnb_facade.get_place(place_id)
         if not place:
             return {'error': 'Place not found'}, 404
         try:
-            facade.update_place(place_id, place_data)
+            hbnb_facade.update_place(place_id, place_data)
             return {'message': 'Place updated successfully'}, 200
         except ValueError as e:
             return {'error': str(e)}, 400

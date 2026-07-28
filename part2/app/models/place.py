@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """Module for Place class."""
 from app.models.base_model import BaseModel

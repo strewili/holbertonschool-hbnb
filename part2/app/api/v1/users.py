@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """User endpoints — POST, GET, PUT."""
 from flask_restx import Namespace, Resource, fields
-from app.services import facade
+from app.services import hbnb_facade
 
 api = Namespace("users", description="User operations")
 
@@ -22,10 +22,10 @@ class UserList(Resource):
     def post(self):
         """Register a new user."""
         user_data = api.payload
-        if facade.get_user_by_email(user_data["email"]):
+        if hbnb_facade.get_user_by_email(user_data["email"]):
             return {"error": "Email already registered"}, 400
         try:
-            user = facade.create_user(user_data)
+            user = hbnb_facade.create_user(user_data)
         except ValueError as e:
             return {"error": str(e)}, 400
         return {
@@ -45,7 +45,7 @@ class UserList(Resource):
                 "last_name": u.last_name,
                 "email": u.email
             }
-            for u in facade.get_all_users()
+            for u in hbnb_facade.get_all_users()
         ], 200
 
 
@@ -56,7 +56,7 @@ class UserResource(Resource):
     @api.response(404, "User not found")
     def get(self, user_id):
         """Get user details by ID."""
-        user = facade.get_user(user_id)
+        user = hbnb_facade.get_user(user_id)
         if not user:
             return {"error": "User not found"}, 404
         return {
@@ -72,10 +72,10 @@ class UserResource(Resource):
     @api.response(400, "Invalid input data")
     def put(self, user_id):
         """Update user information."""
-        if not facade.get_user(user_id):
+        if not hbnb_facade.get_user(user_id):
             return {"error": "User not found"}, 404
         try:
-            user = facade.update_user(user_id, api.payload)
+            user = hbnb_facade.update_user(user_id, api.payload)
         except ValueError as e:
             return {"error": str(e)}, 400
         return {
