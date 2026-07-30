@@ -69,6 +69,14 @@ class HBnBFacade:
             owner=owner
         )
 
+        amenities = []
+        for amenity_id in place_data.get("amenities", []):
+            amenity = self.get_amenity(amenity_id)
+            if not amenity:
+                return None
+            amenities.append(amenity)
+        place.amenities = amenities
+
         self.place_repo.add(place)
         return place
 
