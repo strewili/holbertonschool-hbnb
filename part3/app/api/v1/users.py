@@ -40,11 +40,19 @@ user_update_model = api.model("UserUpdate", {
 @api.route("/")
 class UserList(Resource):
 
+    @jwt_required()
     @api.expect(user_model, validate=True)
     @api.response(201, "User successfully created")
     @api.response(400, "Invalid input data")
+    @api.response(403, "Admin privileges required")
     def post(self):
-        """Register a new user."""
+        """Register a new user (admin only)."""
+
+        claims = get_jwt()
+        if not claims.get("is_admin", False):
+            return {
+                "error": "Admin privileges required"
+            }, 403
 
         user_data = api.payload
 
