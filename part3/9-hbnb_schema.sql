@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS reviews (
     updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (place_id) REFERENCES places(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT uq_review_user_place UNIQUE (user_id, place_id),
+    CONSTRAINT chk_review_rating CHECK (rating BETWEEN 1 AND 5)
 );
 
 CREATE TABLE IF NOT EXISTS place_amenity (
@@ -59,7 +61,7 @@ CREATE TABLE IF NOT EXISTS place_amenity (
 );
 
 INSERT INTO users (id, first_name, last_name, email, password, is_admin, created_at, updated_at)
-VALUES ('36c9050e-ddd3-4c3b-9731-9f487208bbc1', 'Admin', 'HBnB', 'admin@hbnb.io', '$2b$12$REPLACE.WITH.REAL.BCRYPT.HASH.aaaaaaaaaaaaaaaaaaaaaa', TRUE, NOW(), NOW());
+VALUES ('36c9050e-ddd3-4c3b-9731-9f487208bbc1', 'Admin', 'HBnB', 'admin@hbnb.io', '$2b$12$kgVuE6DCVUDrTZvxlqI/P.0dh/m4G0POvMADJhFASKXoPvvuy6ZtK', TRUE, NOW(), NOW());
 
 INSERT INTO amenities (id, name, created_at, updated_at) VALUES (UUID(), 'WiFi', NOW(), NOW());
 INSERT INTO amenities (id, name, created_at, updated_at) VALUES (UUID(), 'Swimming Pool', NOW(), NOW());
