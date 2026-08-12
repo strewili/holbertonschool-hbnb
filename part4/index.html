@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charet="Utf-8">
+        <title>HBnB - Places</title>
+        <link rel="icon" href="images/icon.png">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+
+        <header>
+            <img src="images/logo.png" alt="HBnB Logo" class="logo">
+            <a href="login.html" class="login-button">Login</a>
+        </header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
+        </nav>
+
+        <main>
+            <div id="filter-container">
+                <label for="country-filter">Filter by Country:</label>
+                <select id="country-filter">
+                    <option value="All">All Countries</option>
+                </select>
+            </div>
+
+            <div id="places-list">
+                <!-- place-card elements are injected here by index.js -->
+
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 HBnB. All rights reserved.</p>
+        </footer>
+
+        <script src="scripts.js"></script>
+        <script src="index.js"></script> 
+    
+    </body>
+</html>
