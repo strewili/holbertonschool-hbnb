@@ -107,7 +107,7 @@ nav { display: flex; align-items: center; gap: 26px; }
   padding: 90px 46px 130px;
   background-image:
     linear-gradient(180deg, rgba(11, 22, 38, .82) 0%, rgba(18, 37, 60, .72) 45%, rgba(27, 53, 87, .86) 100%),
-    url("images/hero.png");
+    url("https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1800");
   background-size: cover;
   background-position: center 62%;
   color: var(--white);
@@ -356,7 +356,7 @@ nav { display: flex; align-items: center; gap: 26px; }
   padding: 66px 46px 74px;
   background-image:
     linear-gradient(180deg, rgba(11, 22, 38, .84), rgba(27, 53, 87, .88)),
-    url("images/hero.png");
+    url("https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1800");
   background-size: cover;
   background-position: center 60%;
   color: var(--white);
@@ -488,7 +488,7 @@ nav { display: flex; align-items: center; gap: 26px; }
   min-height: 320px;
   background-image:
     linear-gradient(180deg, rgba(11, 22, 38, .78), rgba(27, 53, 87, .84)),
-    url("images/hero.png");
+    url("https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1800");
   background-size: cover;
   background-position: center;
   color: var(--white);
