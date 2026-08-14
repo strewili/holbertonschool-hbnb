@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBnB — List of Places</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="index.html">
+      <img src="images/logo.png" alt="HBnB logo" class="logo">
+    </a>
+
+    <nav>
+      <a href="index.html" class="nav-link active">Places</a>
+      <a href="index.html" class="nav-link">Destinations</a>
+      <a href="login.html" id="login-link" class="login-button">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="hero-eyebrow">Handpicked stays</p>
+        <h1>Find a <em>calm</em> place to stay</h1>
+        <p class="hero-sub">Quiet homes, honest prices, and reviews from people who actually stayed there.</p>
+        <div class="hero-stats">
+          <div class="stat"><strong>120+</strong><span>QUIET HOMES</span></div>
+          <div class="stat"><strong>4.8</strong><span>AVERAGE RATING</span></div>
+          <div class="stat"><strong>12</strong><span>CITIES</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="filter" class="filter-bar">
+      <div class="filter-group">
+        <label for="price-filter">Max price per night</label>
+        <select id="price-filter">
+          <option value="all">Any price</option>
+          <option value="10">Up to $10</option>
+          <option value="50">Up to $50</option>
+          <option value="100">Up to $100</option>
+        </select>
+      </div>
+      <p class="filter-hint">Showing <strong>6</strong> places</p>
+    </section>
+
+    <div class="section-head">
+      <h2 class="section-title">Available places</h2>
+      <p class="section-sub">Soft light, slow mornings, and space to breathe.</p>
+    </div>
+
+    <section id="places-list" class="places-grid">
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place1.png" alt="Quiet apartment by the shore" class="place-image">
+          <span class="badge">Sea view</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Seaside Calm Apartment</h3>
+            <span class="rating">★ 4.9</span>
+          </div>
+          <p class="place-location">Jeddah, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>2 guests</li>
+            <li>WiFi</li>
+            <li>Sea view</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$200</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place2.png" alt="Modern studio at blue hour" class="place-image">
+          <span class="badge">Popular</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Blue Hour Studio</h3>
+            <span class="rating">★ 4.7</span>
+          </div>
+          <p class="place-location">Riyadh, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>2 guests</li>
+            <li>WiFi</li>
+            <li>Workspace</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$120</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place3.png" alt="Cabin surrounded by hills" class="place-image">
+          <span class="badge">Mountain</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Golden Hills Retreat</h3>
+            <span class="rating">★ 4.8</span>
+          </div>
+          <p class="place-location">Abha, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>4 guests</li>
+            <li>Fireplace</li>
+            <li>Garden</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$85</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place4.png" alt="Peaceful house at dusk" class="place-image">
+          <span class="badge">Quiet</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Dusk House</h3>
+            <span class="rating">★ 4.6</span>
+          </div>
+          <p class="place-location">Taif, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>3 guests</li>
+            <li>WiFi</li>
+            <li>Terrace</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$150</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place5.png" alt="Lakeside home at sunset" class="place-image">
+          <span class="badge">Lakeside</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Still Water Lodge</h3>
+            <span class="rating">★ 5.0</span>
+          </div>
+          <p class="place-location">Al Ula, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>5 guests</li>
+            <li>Pool</li>
+            <li>Lake view</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$240</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="place-card">
+        <div class="place-media">
+          <img src="images/place6.png" alt="Soft blue morning cottage" class="place-image">
+          <span class="badge">New</span>
+          <span class="fav" aria-hidden="true">♥</span>
+        </div>
+        <div class="place-card-body">
+          <div class="place-top">
+            <h3 class="place-name">Morning Mist Cottage</h3>
+            <span class="rating">★ 4.5</span>
+          </div>
+          <p class="place-location">Al Baha, Saudi Arabia</p>
+          <ul class="place-tags">
+            <li>2 guests</li>
+            <li>WiFi</li>
+            <li>Balcony</li>
+          </ul>
+          <div class="place-foot">
+            <p class="place-price"><span class="amount">$70</span> per night</p>
+            <a href="place.html" class="details-button">View Details</a>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="" class="footer-logo">
+      <p class="footer-tag">Calm stays, honest reviews.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Places</a>
+        <a href="login.html">Login</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 HBnB. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

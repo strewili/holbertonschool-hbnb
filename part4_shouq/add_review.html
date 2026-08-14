@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBnB — Add Review</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="index.html">
+      <img src="images/logo.png" alt="HBnB logo" class="logo">
+    </a>
+
+    <nav>
+      <a href="index.html" class="nav-link">Places</a>
+      <a href="place.html" class="nav-link active">Add Review</a>
+      <a href="login.html" id="login-link" class="login-button">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <p class="crumbs"><a href="index.html">Places</a> &rsaquo; <a href="place.html">Seaside Calm Apartment</a> &rsaquo; Add review</p>
+      <h1>Share your stay</h1>
+      <p>Honest reviews help the next traveller find a calm place.</p>
+    </section>
+
+    <div class="review-page">
+
+      <div class="review-context">
+        <img src="images/place1.png" alt="Seaside Calm Apartment">
+        <div>
+          <p class="rc-name">Seaside Calm Apartment</p>
+          <p class="rc-loc">Jeddah, Saudi Arabia · $200 per night</p>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <div class="form-card-inner">
+          <h1>Add a review</h1>
+          <p class="lead">Tell other travellers what the place was really like.</p>
+
+          <form id="review-form">
+            <div class="field">
+              <label for="review-text">Your review</label>
+              <textarea id="review-text" name="review" placeholder="What made this place calm for you? What should the next guest know?" required></textarea>
+            </div>
+
+            <div class="field">
+              <label for="rating">Rating</label>
+              <div class="stars">
+                <input type="radio" id="star5" name="rating" value="5" required>
+                <label for="star5">★ 5</label>
+
+                <input type="radio" id="star4" name="rating" value="4">
+                <label for="star4">★ 4</label>
+
+                <input type="radio" id="star3" name="rating" value="3">
+                <label for="star3">★ 3</label>
+
+                <input type="radio" id="star2" name="rating" value="2">
+                <label for="star2">★ 2</label>
+
+                <input type="radio" id="star1" name="rating" value="1">
+                <label for="star1">★ 1</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Submit review</button>
+          </form>
+
+          <p class="form-note">Changed your mind? <a href="place.html">Back to the place</a></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="" class="footer-logo">
+      <p class="footer-tag">Calm stays, honest reviews.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Places</a>
+        <a href="login.html">Login</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 HBnB. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>

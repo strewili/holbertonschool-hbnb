@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HBnB — Place Details</title>
+  <link rel="icon" type="image/png" href="images/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <a class="brand" href="index.html">
+      <img src="images/logo.png" alt="HBnB logo" class="logo">
+    </a>
+
+    <nav>
+      <a href="index.html" class="nav-link">Places</a>
+      <a href="index.html" class="nav-link active">Details</a>
+      <a href="login.html" id="login-link" class="login-button">Login</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-banner">
+      <p class="crumbs"><a href="index.html">Places</a> &rsaquo; Seaside Calm Apartment</p>
+      <h1>Seaside Calm Apartment</h1>
+      <p>Jeddah, Saudi Arabia</p>
+    </section>
+
+    <!-- Place details -->
+    <section class="place-details" id="place-details">
+      <img src="images/place1.png" alt="Seaside Calm Apartment at dusk" class="place-hero-img">
+
+      <div class="place-info">
+        <h2>Seaside Calm Apartment</h2>
+        <p class="place-location">Jeddah, Saudi Arabia</p>
+
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="k">Host</span>
+            <span class="v">Omar Alharbi</span>
+          </div>
+          <div class="info-item">
+            <span class="k">Price</span>
+            <span class="v price">$200 / night</span>
+          </div>
+          <div class="info-item">
+            <span class="k">Guests</span>
+            <span class="v">2 guests</span>
+          </div>
+          <div class="info-item">
+            <span class="k">Rating</span>
+            <span class="v">★ 4.9</span>
+          </div>
+        </div>
+
+        <h3>About this place</h3>
+        <p class="desc">
+          A quiet apartment a few steps from the shore. Wide windows face the water,
+          so the room fills with soft light in the morning and turns deep blue at dusk.
+          There is a small balcony for tea, a proper desk for slow work, and almost no
+          street noise at night.
+        </p>
+
+        <h3>Amenities</h3>
+        <ul class="amenities">
+          <li>WiFi</li>
+          <li>Air Conditioning</li>
+          <li>Sea view</li>
+          <li>Kitchen</li>
+          <li>Workspace</li>
+          <li>Free parking</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews-section">
+      <div class="reviews-head">
+        <h2>Reviews</h2>
+        <p class="filter-hint">3 reviews · ★ 4.9 average</p>
+      </div>
+
+      <div class="reviews-list" id="reviews-list">
+
+        <article class="review-card">
+          <div class="review-inner">
+            <div class="review-head">
+              <img src="images/guest1.png" alt="Sara Alqahtani" class="avatar">
+              <span class="review-who">
+                <span class="review-user">Sara Alqahtani</span>
+                <span class="review-date">March 2026</span>
+              </span>
+              <span class="review-rating">★ 5</span>
+            </div>
+            <p class="review-text">
+              Exactly as described — calm, clean, and the sea view in the morning is unreal.
+              The host answered every message within minutes.
+            </p>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-inner">
+            <div class="review-head">
+              <img src="images/guest2.png" alt="Mona Khalid" class="avatar">
+              <span class="review-who">
+                <span class="review-user">Mona Khalid</span>
+                <span class="review-date">February 2026</span>
+              </span>
+              <span class="review-rating">★ 5</span>
+            </div>
+            <p class="review-text">
+              I worked remotely for a week from here. The desk and the quiet made it easy.
+              Would come back without thinking twice.
+            </p>
+          </div>
+        </article>
+
+        <article class="review-card">
+          <div class="review-inner">
+            <div class="review-head">
+              <img src="images/guest3.png" alt="Faisal Alotaibi" class="avatar">
+              <span class="review-who">
+                <span class="review-user">Faisal Alotaibi</span>
+                <span class="review-date">January 2026</span>
+              </span>
+              <span class="review-rating">★ 4</span>
+            </div>
+            <p class="review-text">
+              Lovely place and a great location. Only note is that the lift was slow,
+              but honestly the balcony made up for it.
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Shown to logged-in users -->
+    <section class="add-review" id="add-review">
+      <div class="form">
+        <div class="form-inner">
+          <h2>Add your review</h2>
+
+          <form id="review-form">
+            <div class="field">
+              <label for="review-text">Your review</label>
+              <textarea id="review-text" name="review" placeholder="What made this place calm for you?" required></textarea>
+            </div>
+
+            <div class="field">
+              <label for="rating">Rating</label>
+              <select id="rating" name="rating" required>
+                <option value="">Choose a rating</option>
+                <option value="5">★ 5 — Excellent</option>
+                <option value="4">★ 4 — Very good</option>
+                <option value="3">★ 3 — Good</option>
+                <option value="2">★ 2 — Fair</option>
+                <option value="1">★ 1 — Poor</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-primary">Submit review</button>
+          </form>
+
+          <p class="form-note">Prefer a full page? <a href="add_review.html">Open the review form</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="images/logo.png" alt="" class="footer-logo">
+      <p class="footer-tag">Calm stays, honest reviews.</p>
+      <nav class="footer-nav">
+        <a href="index.html">Places</a>
+        <a href="login.html">Login</a>
+      </nav>
+      <p class="footer-copy">&copy; 2026 HBnB. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
