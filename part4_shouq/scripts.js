@@ -179,30 +179,47 @@ function renderPlaces (places) {
   if (!list) return;
 
   list.textContent = '';
-
-  if (!places.length) {
-    const empty = document.createElement('p');
-    empty.className = 'filter-hint';
-    empty.textContent = 'No places match this price yet.';
-    list.appendChild(empty);
-  } else {
-    places.forEach((place, i) => list.appendChild(buildPlaceCard(place, i)));
-  }
-
-  const hint = document.querySelector('.filter-hint');
-  if (hint) hint.innerHTML = `Showing <strong>${places.length}</strong> places`;
+  places.forEach((place, i) => list.appendChild(buildPlaceCard(place, i)));
 }
 
+/* Filters whatever cards are on the page, so it works with API data
+   and with the built-in sample cards alike. */
 function applyPriceFilter () {
   const select = document.getElementById('price-filter');
   if (!select) return;
 
-  const value = select.value;
-  const filtered = value === 'all'
-    ? allPlaces
-    : allPlaces.filter((place) => Number(place.price) <= Number(value));
+  const max = select.value;
+  const cards = document.querySelectorAll('#places-list .place-card');
+  let shown = 0;
 
-  renderPlaces(filtered);
+  cards.forEach((card) => {
+    const price = Number(card.dataset.price || 0);
+    const visible = max === 'all' || price <= Number(max);
+    card.style.display = visible ? '' : 'none';
+    if (visible) shown += 1;
+  });
+
+  const hint = document.querySelector('.filter-hint');
+  if (hint) {
+    hint.innerHTML = shown
+      ? `Showing <strong>${shown}</strong> of ${cards.length} places`
+      : 'No places match this price.';
+  }
+}
+
+/* Tells the user the API is not running instead of failing silently. */
+function showApiNotice () {
+  if (document.getElementById('api-notice')) return;
+
+  const notice = document.createElement('p');
+  notice.id = 'api-notice';
+  notice.className = 'api-notice';
+  notice.innerHTML =
+    'Showing sample places — the API is not running. ' +
+    'Start it with <code>python run.py</code> to load real data.';
+
+  const filter = document.getElementById('filter');
+  if (filter) filter.insertAdjacentElement('afterend', notice);
 }
 
 async function fetchPlaces () {
@@ -214,11 +231,14 @@ async function fetchPlaces () {
     if (!response.ok) throw new Error('Request failed');
 
     allPlaces = await response.json();
-    applyPriceFilter();
+    if (allPlaces.length) renderPlaces(allPlaces);
+    else showApiNotice();
   } catch (error) {
-    // Keep the static demo cards already in the HTML when the API is offline.
-    console.warn('Could not load places from the API — showing sample content.');
+    // Keep the sample cards already in the HTML and say why.
+    showApiNotice();
   }
+
+  applyPriceFilter();
 }
 
 function initIndex () {
@@ -314,6 +334,47 @@ function renderReviews (reviews) {
   if (hint) hint.textContent = `${reviews.length} review${reviews.length === 1 ? '' : 's'}`;
 }
 
+/* Sample places used when the API is not running (index.html links
+   here with ?demo=N so each card opens its own place, not always the first). */
+const DEMO_PLACES = {
+  '1': ['Seaside Calm Apartment', 'Jeddah, Saudi Arabia', 200, 'images/place1.jpg'],
+  '2': ['Blue Hour Studio',       'Riyadh, Saudi Arabia', 120, 'images/place2.jpg'],
+  '3': ['Golden Hills Retreat',   'Abha, Saudi Arabia',    85, 'images/place3.jpg'],
+  '4': ['Dusk House',             'Taif, Saudi Arabia',   150, 'images/place4.jpg'],
+  '5': ['Still Water Lodge',      'Al Ula, Saudi Arabia', 240, 'images/place5.jpg'],
+  '6': ['Morning Mist Cottage',   'Al Baha, Saudi Arabia', 70, 'images/place6.jpg']
+};
+
+function renderDemoPlace (key) {
+  const demo = DEMO_PLACES[key];
+  if (!demo) return;
+  const [title, location, price, image] = demo;
+
+  const banner = document.querySelector('.page-banner h1');
+  if (banner) banner.textContent = title;
+
+  const bannerSub = document.querySelector('.page-banner > p:last-of-type');
+  if (bannerSub) bannerSub.textContent = location;
+
+  const crumb = document.querySelector('.crumbs');
+  if (crumb) crumb.innerHTML = `<a href="index.html">Places</a> &rsaquo; ${title}`;
+
+  const info = document.querySelector('.place-info');
+  if (info) {
+    const h2 = info.querySelector('h2');
+    if (h2) h2.textContent = title;
+    const loc = info.querySelector('.place-location');
+    if (loc) loc.textContent = location;
+    const values = info.querySelectorAll('.info-item .v');
+    if (values[1]) values[1].textContent = `$${price} / night`;
+  }
+
+  const hero = document.querySelector('.place-hero-img');
+  if (hero) { hero.src = image; hero.alt = title; }
+
+  document.title = `HBnB — ${title}`;
+}
+
 async function initPlaceDetails () {
   const details = document.getElementById('place-details');
   if (!details) return;
@@ -321,6 +382,9 @@ async function initPlaceDetails () {
   // Only logged-in users may add a review.
   const addReview = document.getElementById('add-review');
   if (addReview && !isLoggedIn()) addReview.style.display = 'none';
+
+  const demoKey = new URLSearchParams(window.location.search).get('demo');
+  if (demoKey) { renderDemoPlace(demoKey); return; }
 
   const placeId = getPlaceIdFromURL();
   if (!placeId) return;                       // keep the sample content

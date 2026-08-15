@@ -220,6 +220,26 @@ nav { display: flex; align-items: center; gap: 26px; }
 
 .filter-hint { margin: 0; font-size: 14px; color: var(--muted); }
 
+.api-notice {
+  max-width: 1180px;
+  margin: 18px auto 0;
+  padding: 12px 22px;
+  width: calc(100% - 92px);
+  background-color: #FFF6E4;
+  border: 1px solid #E7D3A6;
+  border-radius: 12px;
+  color: #7A5B1B;
+  font-size: 14px;
+  text-align: center;
+}
+
+.api-notice code {
+  background-color: #F3E4C4;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
 /* ============ Section heads ============ */
 
 .section-head { max-width: 1180px; margin: 58px auto 8px; padding: 0 46px; }
