@@ -12,8 +12,8 @@ const API_BASE = 'http://127.0.0.1:5000/api/v1';
 
 /* Fallback images so cards always look right, whatever the API returns. */
 const PLACE_IMAGES = [
-  'images/place1.png', 'images/place2.png', 'images/place3.png',
-  'images/place4.png', 'images/place5.png', 'images/place6.png'
+  'images/place1.jpg', 'images/place2.jpg', 'images/place3.jpg',
+  'images/place4.jpg', 'images/place5.jpg', 'images/place6.jpg'
 ];
 const GUEST_IMAGES = [
   'images/guest1.png', 'images/guest2.png', 'images/guest3.png',
@@ -42,6 +42,12 @@ function deleteCookie (name) {
 
 const getToken = () => getCookie('token');
 const isLoggedIn = () => Boolean(getToken());
+
+/* Includes the JWT in requests when the user is logged in. */
+function authHeaders () {
+  const token = getToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
 
 /* ------------------------------------------------------------
    Helpers
@@ -81,23 +87,36 @@ function showMessage (form, text, isError = true) {
   box.style.textAlign = 'center';
 }
 
-/* Swap the header button between Login and Logout. */
-function updateAuthLink () {
-  const link = document.getElementById('login-link');
-  if (!link) return;
+/* Spec: show the login link only when the user is NOT authenticated.
+   When authenticated the link is hidden and a separate Logout link
+   takes its place. */
+function checkAuthentication () {
+  const loginLink = document.getElementById('login-link');
+  if (!loginLink) return getToken();
 
-  if (isLoggedIn()) {
-    link.textContent = 'Logout';
-    link.href = '#';
-    link.addEventListener('click', (event) => {
-      event.preventDefault();
-      deleteCookie('token');
-      window.location.href = 'index.html';
-    });
+  if (!isLoggedIn()) {
+    loginLink.style.display = 'block';
+    const old = document.getElementById('logout-link');
+    if (old) old.remove();
   } else {
-    link.textContent = 'Login';
-    link.href = 'login.html';
+    loginLink.style.display = 'none';
+
+    if (!document.getElementById('logout-link')) {
+      const logout = document.createElement('a');
+      logout.id = 'logout-link';
+      logout.className = 'login-button';
+      logout.href = '#';
+      logout.textContent = 'Logout';
+      logout.addEventListener('click', (event) => {
+        event.preventDefault();
+        deleteCookie('token');
+        window.location.href = 'index.html';
+      });
+      loginLink.insertAdjacentElement('afterend', logout);
+    }
   }
+
+  return getToken();
 }
 
 /* ------------------------------------------------------------
@@ -227,7 +246,7 @@ async function fetchPlaces () {
   if (!list) return;
 
   try {
-    const response = await fetch(`${API_BASE}/places/`);
+    const response = await fetch(`${API_BASE}/places/`, { headers: authHeaders() });
     if (!response.ok) throw new Error('Request failed');
 
     allPlaces = await response.json();
@@ -381,7 +400,7 @@ async function initPlaceDetails () {
 
   // Only logged-in users may add a review.
   const addReview = document.getElementById('add-review');
-  if (addReview && !isLoggedIn()) addReview.style.display = 'none';
+  if (addReview) addReview.style.display = isLoggedIn() ? 'block' : 'none';
 
   const demoKey = new URLSearchParams(window.location.search).get('demo');
   if (demoKey) { renderDemoPlace(demoKey); return; }
@@ -393,7 +412,7 @@ async function initPlaceDetails () {
   if (reviewLink) reviewLink.href = `add_review.html?place_id=${encodeURIComponent(placeId)}`;
 
   try {
-    const response = await fetch(`${API_BASE}/places/${placeId}`);
+    const response = await fetch(`${API_BASE}/places/${placeId}`, { headers: authHeaders() });
     if (!response.ok) throw new Error('Request failed');
     renderPlaceDetails(await response.json());
   } catch (error) {
@@ -402,7 +421,7 @@ async function initPlaceDetails () {
   }
 
   try {
-    const response = await fetch(`${API_BASE}/reviews/`);
+    const response = await fetch(`${API_BASE}/reviews/`, { headers: authHeaders() });
     if (!response.ok) throw new Error('Request failed');
     const reviews = await response.json();
     renderReviews(reviews.filter((review) => review.place_id === placeId));
@@ -491,7 +510,7 @@ function initReviewForm () {
    ------------------------------------------------------------ */
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateAuthLink();
+  checkAuthentication();
   initLogin();
   initIndex();
   initPlaceDetails();
