@@ -47,6 +47,10 @@ nav a {
     margin-right: 20px;
 }
 
+nav a:hover {
+    text-decoration: underline;
+}
+
 /* Main */
 
 main {
@@ -167,6 +171,7 @@ main {
 
 .form textarea {
     min-height: 120px;
+    resize: vertical;
 }
 
 .form button {
@@ -176,6 +181,10 @@ main {
     background-color: #ff5a5f;
     color: white;
     cursor: pointer;
+}
+
+.form button:hover {
+    opacity: 0.9;
 }
 
 /* Footer */
