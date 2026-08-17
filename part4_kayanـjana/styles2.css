@@ -1,0 +1,585 @@
+/* =========================================================
+   HBnB — Luxury Hotel Theme
+   Champagne Gold + Warm White
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fcfaf6;
+    color: #27231f;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+}
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    color: #27231f;
+    padding: 18px 6%;
+    border-bottom: 1px solid #e8e1d6;
+    position: relative;
+    z-index: 10;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.03);
+}
+
+.login-button {
+    background-color: #c6a15b;
+    color: #ffffff;
+    padding: 10px 22px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #ad8845;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(198, 161, 91, 0.25);
+}
+
+/* =========================================================
+   Navigation
+   ========================================================= */
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    background-color: #ffffff;
+    padding: 14px 30px;
+    border-bottom: 1px solid #eee8df;
+}
+
+nav a {
+    position: relative;
+    color: #5f5952;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    transition: color 0.3s ease;
+}
+
+nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 1px;
+    background-color: #c6a15b;
+    transition: width 0.3s ease;
+}
+
+nav a:hover {
+    color: #c6a15b;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* =========================================================
+   Main
+   ========================================================= */
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 30px;
+    min-height: 70vh;
+}
+
+/* =========================================================
+   Filter
+   ========================================================= */
+
+#filter-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 18px 20px;
+    background-color: #ffffff;
+    border: 1px solid #e8e1d6;
+    border-radius: 10px;
+}
+
+#filter-container label {
+    color: #5f5952;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#country-filter,
+#price-filter {
+    padding: 9px 14px;
+    margin-left: 5px;
+    background-color: #ffffff;
+    color: #27231f;
+    border: 1px solid #d8cdbd;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+#country-filter:focus,
+#price-filter:focus {
+    border-color: #c6a15b;
+    box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.12);
+}
+
+/* =========================================================
+   Places List
+   ========================================================= */
+
+#places-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* =========================================================
+   Place Cards
+   Required values preserved
+   ========================================================= */
+
+.place-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+    overflow: hidden;
+
+    box-shadow: 0 8px 25px rgba(39, 35, 31, 0.06);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+
+    animation: fadeUp 0.6s ease both;
+}
+
+.place-card:hover {
+    transform: translateY(-7px);
+    border-color: #e0c78f;
+    box-shadow: 0 18px 40px rgba(39, 35, 31, 0.11);
+}
+
+.place-card h3 {
+    margin: 12px 5px 8px;
+    color: #27231f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.place-card p {
+    margin: 6px 5px;
+    color: #77716a;
+    font-size: 14px;
+}
+
+.place-card strong {
+    color: #c6a15b;
+}
+
+/* =========================================================
+   Details Button
+   ========================================================= */
+
+.details-button {
+    display: inline-block;
+    margin: 15px 5px 8px;
+    padding: 10px 18px;
+
+    background-color: #c6a15b;
+    color: #ffffff;
+
+    text-decoration: none;
+    border-radius: 5px;
+
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.details-button:hover {
+    background-color: #ad8845;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 18px rgba(198, 161, 91, 0.25);
+}
+
+/* =========================================================
+   Place Details
+   ========================================================= */
+
+.place-details {
+    background-color: #ffffff;
+    padding: 35px;
+    border: 1px solid #e8e1d6;
+    border-radius: 10px;
+    box-shadow: 0 10px 35px rgba(39, 35, 31, 0.06);
+}
+
+.place-details h1 {
+    color: #27231f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 38px;
+    font-weight: 500;
+    margin-bottom: 25px;
+}
+
+.place-info {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.place-info p {
+    color: #66615b;
+    margin-bottom: 10px;
+}
+
+.place-info strong {
+    color: #c6a15b;
+}
+
+.place-info h2 {
+    margin-top: 30px;
+    margin-bottom: 12px;
+    color: #27231f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 500;
+}
+
+/* =========================================================
+   Amenities
+   ========================================================= */
+
+.amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.amenity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-width: 100px;
+    padding: 15px;
+
+    background-color: #fcfaf6;
+    border: 1px solid #e8e1d6;
+    border-radius: 10px;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.amenity:hover {
+    transform: translateY(-4px);
+    border-color: #c6a15b;
+}
+
+.amenity img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.amenity p {
+    margin: 0;
+    color: #5f5952;
+    font-size: 13px;
+}
+
+/* =========================================================
+   Reviews
+   ========================================================= */
+
+#reviews {
+    margin-top: 45px;
+}
+
+#reviews > h2 {
+    margin-bottom: 15px;
+    color: #27231f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.review-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background-color: #ffffff;
+
+    box-shadow: 0 7px 25px rgba(39, 35, 31, 0.05);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(39, 35, 31, 0.08);
+}
+
+.review-card h3 {
+    margin: 8px 0;
+    color: #27231f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 19px;
+}
+
+.review-card p {
+    margin: 6px 0;
+    color: #77716a;
+}
+
+/* =========================================================
+   Forms
+   ========================================================= */
+
+.login-container,
+.add-review {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 35px;
+
+    background-color: #ffffff;
+
+    border: 1px solid #e8e1d6;
+    border-radius: 10px;
+
+    box-shadow: 0 15px 40px rgba(39, 35, 31, 0.08);
+
+    animation: fadeUp 0.6s ease both;
+}
+
+.login-container h1,
+.login-container h2,
+.add-review h1,
+.add-review h2 {
+    margin-bottom: 25px;
+
+    color: #27231f;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 500;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.form label {
+    color: #5f5952;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form input,
+.form textarea,
+.form select {
+    width: 100%;
+    padding: 12px 14px;
+
+    background-color: #ffffff;
+    color: #27231f;
+
+    border: 1px solid #d8cdbd;
+    border-radius: 5px;
+
+    outline: none;
+
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.form input:focus,
+.form textarea:focus,
+.form select:focus {
+    border-color: #c6a15b;
+    box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.12);
+}
+
+.form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form button {
+    margin-top: 10px;
+    padding: 12px;
+
+    border: none;
+    border-radius: 5px;
+
+    background-color: #c6a15b;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.form button:hover {
+    background-color: #ad8845;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(198, 161, 91, 0.25);
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+footer {
+    margin-top: 60px;
+    padding: 30px 20px;
+
+    text-align: center;
+
+    background-color: #27231f;
+    color: #e8e1d6;
+
+    font-size: 13px;
+    letter-spacing: 0.3px;
+}
+
+/* =========================================================
+   Animations
+   ========================================================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   Responsive Design
+   ========================================================= */
+
+@media (max-width: 700px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    nav {
+        gap: 20px;
+        padding: 12px 15px;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+
+    main {
+        padding: 30px 15px;
+    }
+
+    #filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #places-list {
+        grid-template-columns: 1fr;
+    }
+
+    .place-card {
+        margin: 10px;
+    }
+
+    .place-details {
+        padding: 25px 18px;
+    }
+
+    .place-details h1 {
+        font-size: 30px;
+    }
+
+    .amenities {
+        gap: 10px;
+    }
+
+    .login-container,
+    .add-review {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+}
