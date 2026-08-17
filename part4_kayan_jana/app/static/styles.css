@@ -6,8 +6,8 @@
 }
 
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #eef6fa;
+    color: #29434e;
 }
 
 /* Header */
@@ -16,8 +16,8 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
-    color: #fff;
+    background-color: #d9ebf2;
+    color: #29434e;
     padding: 15px 30px;
 }
 
@@ -27,8 +27,8 @@ header {
 }
 
 .login-button {
-    background-color: #ff5a5f;
-    color: white;
+    background-color: #6b9eb5;
+    color: rgb(236, 245, 249);
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 5px;
@@ -37,17 +37,18 @@ header {
 /* Navigation */
 
 nav {
-    background-color: #444;
+    background-color:  #c8e0ea;
     padding: 15px 30px;
 }
 
 nav a {
-    color: #fff;
+    color: #29434e;
     text-decoration: none;
     margin-right: 20px;
 }
 
 nav a:hover {
+    color: #527f94;
     text-decoration: underline;
 }
 
@@ -75,9 +76,9 @@ main {
 .place-card {
     margin: 20px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #d3e3e9;
     border-radius: 10px;
-    background-color: white;
+    background-color: #ffffff;
 }
 
 /* Details button */
@@ -86,7 +87,7 @@ main {
     display: inline-block;
     margin-top: 10px;
     padding: 10px 15px;
-    background-color: #ff5a5f;
+    background-color:  #6b9eb5;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -95,7 +96,7 @@ main {
 /* Place details */
 
 .place-details {
-    background-color: white;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 10px;
 }
@@ -139,7 +140,7 @@ main {
 .review-card {
     margin: 20px;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #d3e3e9;
     border-radius: 10px;
     background-color: white;
 }
@@ -165,7 +166,7 @@ main {
 .form textarea,
 .form select {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #bfd6df;
     border-radius: 5px;
 }
 
@@ -178,13 +179,21 @@ main {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #ff5a5f;
+    background-color: #6b9eb5;
     color: white;
     cursor: pointer;
 }
 
 .form button:hover {
     opacity: 0.9;
+    background-color: #5b8da5;
+}
+
+/* error message */
+
+.error-message {
+    color: #b84c5a;
+    margin-top: 10px;
 }
 
 /* Footer */
@@ -193,6 +202,6 @@ footer {
     margin-top: 40px;
     padding: 20px;
     text-align: center;
-    background-color: #333;
-    color: white;
+    background-color: #d9ebf2;
+    color: #29434e;
 }
