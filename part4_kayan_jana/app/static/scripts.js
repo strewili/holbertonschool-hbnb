@@ -8,54 +8,45 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            try {
-                const response = await fetch(
-                    '/api/v1/auth/login',
-                    {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            email: email,
-                            password: password
-                        })
-                    }
-                );
-
-                if (response.ok) {
-                    const data = await response.json();
-
-                    document.cookie =
-                        `token=${data.access_token}; path=/`;
-
-                    window.location.href = '/index.html';
-                } else {
-                    let errorMessage =
-                        loginForm.querySelector('.error-message');
-
-                    if (!errorMessage) {
-                        errorMessage = document.createElement('p');
-                        errorMessage.className = 'error-message';
-                        loginForm.appendChild(errorMessage);
-                    }
-
-                    errorMessage.textContent =
-                        'Login failed. Please check your email and password.';
-                }
-            } catch (error) {
-                let errorMessage =
-                    loginForm.querySelector('.error-message');
-
-                if (!errorMessage) {
-                    errorMessage = document.createElement('p');
-                    errorMessage.className = 'error-message';
-                    loginForm.appendChild(errorMessage);
-                }
-
-                errorMessage.textContent =
-                    'Unable to connect to the server.';
-            }
+            await loginUser(email, password);
         });
     }
 });
+
+async function loginUser(email, password) {
+    try {
+        const response = await fetch('/api/v1/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Store JWT in a cookie for session management
+            document.cookie = `token=${data.access_token}; path=/`;
+            window.location.href = 'index.html';
+        } else {
+            showLoginError(data.error || 'Invalid credentials');
+        }
+    } catch (err) {
+        showLoginError('Network error, please try again.');
+    }
+}
+
+function showLoginError(message) {
+    let errorEl = document.getElementById('login-error');
+
+    // Create the error element once, reuse it on subsequent attempts
+    if (!errorEl) {
+        errorEl = document.createElement('p');
+        errorEl.id = 'login-error';
+        errorEl.style.color = 'red';
+        document.getElementById('login-form').appendChild(errorEl);
+    }
+
+    errorEl.textContent = message;
+}
