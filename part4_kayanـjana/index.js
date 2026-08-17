@@ -68,13 +68,29 @@ function displayPlaces(places) {
 
     card.className = 'place-card';
 
+    const image = place.title === 'Test Place'
+      ? 'images/hotel1.jpg'
+      : 'images/hotel2.jpg';
+
+    const title = place.title === 'Test Place'
+      ? 'Royal Garden Suite'
+      : 'Golden Pearl Residence';
+
     card.innerHTML = `
-      <h3>${place.title}</h3>
-      <p><strong>Price:</strong> $${place.price} per night</p>
-      <p>${place.description || ''}</p>
-      <a href="place.html?id=${place.id}" class="details-button">
-        View Details
-      </a>
+      <img src="${image}" alt="${title}" class="place-image">
+
+      <div class="place-card-content">
+        <h3>${title}</h3>
+        <p><strong>Price:</strong> $${place.price} per night</p>
+        <p>${place.title === 'Test Place'
+  ? 'A luxurious and comfortable suite designed for a relaxing stay.'
+  : 'An elegant private residence with a warm and luxurious atmosphere.'
+}</p>
+
+        <a href="place.html?id=${place.id}" class="details-button">
+          View Details
+        </a>
+      </div>
     `;
 
     placesList.appendChild(card);

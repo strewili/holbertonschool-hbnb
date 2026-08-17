@@ -583,3 +583,33 @@ footer {
         padding: 25px;
     }
 }
+.place-card {
+    overflow: hidden;
+    padding: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.place-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.place-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.place-card-content {
+    padding: 20px;
+}
+
+.place-card h3 {
+    margin-bottom: 10px;
+}
+
+.place-card p {
+    margin-bottom: 10px;
+}

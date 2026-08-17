@@ -24,6 +24,19 @@ function checkAuthentication() {
 document.addEventListener('DOMContentLoaded', () => {
   checkAuthentication();
 
+  // Place details page
+  const addReviewSection = document.getElementById('add-review');
+
+  if (addReviewSection) {
+    const token = getCookie('token');
+
+    if (token) {
+      addReviewSection.style.display = 'block';
+    } else {
+      addReviewSection.style.display = 'none';
+    }
+  }
+
   const loginForm = document.getElementById('login-form');
   if (loginForm) {
     loginForm.addEventListener('submit', async (event) => {
