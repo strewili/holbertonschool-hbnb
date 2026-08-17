@@ -10,7 +10,7 @@
 
         <header>
             <img src="images/logo.png" alt="HBnB Logo" class="logo">
-            <a href="login.html" class="login-button">Login</a>
+            <a href="login.html" id="login-link"  class="login-button">Login</a>
         </header>
         <nav>
             <a href="index.html">Home</a>
@@ -18,12 +18,15 @@
         </nav>
 
         <main>
-            <div id="filter-container">
-                <label for="country-filter">Filter by Country:</label>
-                <select id="country-filter">
-                    <option value="All">All Countries</option>
-                </select>
-            </div>
+<div id="filter-container">
+    <label for="price-filter">Filter by Price:</label>
+    <select id="price-filter">
+        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="All">All</option>
+    </select>
+</div>
 
             <div id="places-list">
                 <!-- place-card elements are injected here by index.js -->
