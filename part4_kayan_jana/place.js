@@ -110,20 +110,19 @@ function displayReviews(reviews) {
 
   if (reviews.length === 0) {
     reviewsSection.innerHTML += '<p>No reviews yet.</p>';
-    return;
+  } else {
+    reviews.forEach(review => {
+      const article = document.createElement('article');
+      article.className = 'review-card';
+
+      article.innerHTML = `
+        <p>${review.text}</p>
+        <p>Rating: ${review.rating}/5</p>
+      `;
+
+      reviewsSection.appendChild(article);
+    });
   }
-
-  reviews.forEach(review => {
-    const article = document.createElement('article');
-    article.className = 'review-card';
-
-    article.innerHTML = `
-      <p>${review.text}</p>
-      <p>Rating: ${review.rating}/5</p>
-    `;
-
-    reviewsSection.appendChild(article);
-  });
 
   const addReviewLink = document.createElement('a');
   addReviewLink.href = `add_review.html?id=${getPlaceIdFromURL()}`;
@@ -172,5 +171,5 @@ function displayPlaceDetails(place) {
         }
       </div>
     </div>
-`;
+  `;
 }
