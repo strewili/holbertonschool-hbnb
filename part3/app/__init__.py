@@ -1,5 +1,6 @@
 ﻿from flask import Flask
 from flask_restx import Api
+from flask_cors import CORS
 
 from app.config import config
 from app.extensions import bcrypt, jwt, db
@@ -13,6 +14,7 @@ from app.api.v1.reviews import api as reviews_ns
 
 def create_app(config_class=config['default']):
     app = Flask(__name__)
+    CORS(app)
     app.config.from_object(config_class)
 
     bcrypt.init_app(app)
