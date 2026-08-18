@@ -394,6 +394,32 @@ function renderDemoPlace (key) {
   document.title = `HBnB — ${title}`;
 }
 
+/* Replaces the details card with a clear message when the place id in the
+   URL is invalid, instead of silently leaving stale sample content. */
+function showPlaceError (text) {
+  const details = document.getElementById('place-details');
+  if (!details) return;
+
+  details.innerHTML = `
+    <div class="place-info">
+      <h2>Place not found</h2>
+      <p class="desc">${escapeHtml(text)}</p>
+      <p style="margin-top:18px">
+        <a href="index.html" class="details-button">Back to all places</a>
+      </p>
+    </div>
+  `;
+
+  const reviews = document.querySelector('.reviews-section');
+  if (reviews) reviews.style.display = 'none';
+
+  const addReview = document.getElementById('add-review');
+  if (addReview) addReview.style.display = 'none';
+
+  const banner = document.querySelector('.page-banner h1');
+  if (banner) banner.textContent = 'Place not found';
+}
+
 async function initPlaceDetails () {
   const details = document.getElementById('place-details');
   if (!details) return;
@@ -413,10 +439,17 @@ async function initPlaceDetails () {
 
   try {
     const response = await fetch(`${API_BASE}/places/${placeId}`, { headers: authHeaders() });
+
+    // The place id in the URL does not exist in the database.
+    if (response.status === 404) {
+      showPlaceError('This place does not exist. It may have been removed.');
+      return;
+    }
     if (!response.ok) throw new Error('Request failed');
+
     renderPlaceDetails(await response.json());
   } catch (error) {
-    console.warn('Could not load place details — showing sample content.');
+    showPlaceError('Could not load this place. Is the API running?');
     return;
   }
 

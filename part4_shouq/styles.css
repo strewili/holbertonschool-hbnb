@@ -439,10 +439,15 @@ nav { display: flex; align-items: center; gap: 26px; }
 .amenities { display: flex; flex-wrap: wrap; gap: 9px; list-style: none; margin: 0; padding: 0; }
 
 .amenities li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-size: 13.5px; color: var(--navy-700);
   background-color: var(--blue-100);
   padding: 7px 15px; border-radius: 999px;
 }
+
+.amenity-icon { width: 17px; height: 17px; opacity: .75; }
 
 /* ============ Reviews ============ */
 
