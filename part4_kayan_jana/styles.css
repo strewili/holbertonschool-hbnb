@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #eef6fa;
+    color: #29434e;
+}
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d9ebf2;
+    color: #29434e;
+    padding: 15px 30px;
+}
+
+.logo {
+    width: 120px;
+    height: auto;
+}
+
+.login-button {
+    background-color: #6b9eb5;
+    color: rgb(236, 245, 249);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Navigation */
+
+nav {
+    background-color:  #c8e0ea;
+    padding: 15px 30px;
+}
+
+nav a {
+    color: #29434e;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+nav a:hover {
+    color: #527f94;
+    text-decoration: underline;
+}
+
+/* Main */
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* Filter */
+
+#filter-container {
+    margin-bottom: 20px;
+}
+
+#country-filter {
+    padding: 8px;
+    margin-left: 10px;
+}
+
+/* Place cards */
+
+.place-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #d3e3e9;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+/* Details button */
+
+.details-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color:  #6b9eb5;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Place details */
+
+.place-details {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.place-info {
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.place-info h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Amenities */
+
+.amenities {
+    display: flex;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.amenity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.amenity img {
+    width: 40px;
+    height: 40px;
+}
+
+/* Reviews */
+
+#reviews {
+    margin-top: 30px;
+}
+
+.review-card {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #d3e3e9;
+    border-radius: 10px;
+    background-color: white;
+}
+
+/* Forms */
+
+.login-container,
+.add-review {
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form input,
+.form textarea,
+.form select {
+    padding: 10px;
+    border: 1px solid #bfd6df;
+    border-radius: 5px;
+}
+
+.form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #6b9eb5;
+    color: white;
+    cursor: pointer;
+}
+
+.form button:hover {
+    opacity: 0.9;
+    background-color: #5b8da5;
+}
+
+/* error message */
+
+.error-message {
+    color: #b84c5a;
+    margin-top: 10px;
+}
+
+/* Footer */
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background-color: #d9ebf2;
+    color: #29434e;
+}
