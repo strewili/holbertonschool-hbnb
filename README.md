@@ -2,13 +2,14 @@
 
 # 🏡 HBnB — Holberton BnB
 
-**A full-stack RESTful API for a property rental platform — built from UML blueprint to a secured, database-backed service.**
+**A full-stack rental platform — built from UML blueprint, to a secured database-backed API, to a web client you can actually click.**
 
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-RESTx-000000?logo=flask&logoColor=white)](https://flask-restx.readthedocs.io/)
 [![SQLAlchemy](https://img.shields.io/badge/ORM-SQLAlchemy-D71F00?logo=sqlalchemy&logoColor=white)](https://www.sqlalchemy.org/)
 [![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 [![SQLite](https://img.shields.io/badge/DB-SQLite%20%2F%20MySQL-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![JavaScript](https://img.shields.io/badge/Client-JavaScript%20ES6-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 
 *Holberton School — Full-Stack Software Engineering*
 
@@ -28,6 +29,7 @@
 - [Quickstart: A Complete Walkthrough](#-quickstart-a-complete-walkthrough)
 - [Business Rules](#-business-rules)
 - [Raw SQL Schema (Task 9)](#-raw-sql-schema-task-9)
+- [The Web Client (Part 4)](#-the-web-client-part-4)
 - [Testing](#-testing)
 - [Project Status](#-project-status)
 - [Team](#-team)
@@ -53,7 +55,7 @@ The interesting part isn't the feature list — it's the **architecture**. The p
 
 ## 🚀 Project Journey
 
-The project was built in three progressive parts, each one adding a layer of realism.
+The project was built in four progressive parts, each one adding a layer of realism.
 
 ### 📐 Part 1 — Technical Documentation
 
@@ -75,7 +77,7 @@ The blueprint became working code: models, the Facade layer, an in-memory reposi
 
 > ⚠️ **Note:** Part 2's source files are only partially committed in this repository (see [Project Status](#-project-status)). Part 3 is the complete, runnable version of the application.
 
-### 🔐 Part 3 — Authentication & Database *(current)*
+### 🔐 Part 3 — Authentication & Database
 
 The application became production-shaped:
 
@@ -84,6 +86,21 @@ The application became production-shaped:
 - **Role-based authorization** — owner-only and admin-only rules on every mutating endpoint
 - **SQLAlchemy ORM** — the in-memory repository swapped for a real, persistent database
 - **Raw SQL schema** — the same database rebuilt by hand in pure SQL, plus an ERD
+
+### 🌊 Part 4 — Simple Web Client *(current)*
+
+Everything built so far was invisible — the only way to see it was Swagger or `curl`.
+Part 4 gives the API a face: a browsable site built with **HTML5, CSS3 and vanilla
+JavaScript ES6**, talking to the Part 3 backend over the **Fetch API**, with no page
+reloads anywhere.
+
+- **Login** — email + password exchanged for a JWT, stored in a cookie
+- **List of places** — cards rendered live from `GET /places/`, with a client-side price filter
+- **Place details** — one page serving every place, selected by `?place_id=` in the URL
+- **Add review** — a guarded form that POSTs with the token attached
+- **A real design** — navy palette, Poppins, hotel photography, W3C-validated markup
+
+📄 **[Full Part 4 documentation →](part4_shouq/README.md)**
 
 ---
 
@@ -221,7 +238,7 @@ holbertonschool-hbnb/
 │   │   └── run.py
 │   └── tests/                      #    unittest suite
 │
-└── part3/                          # 🔐 Auth + database (complete app)
+├── part3/                          # 🔐 Auth + database (complete app)
     ├── app/
     │   ├── api/v1/
     │   │   ├── auth.py             #    POST /login → JWT
@@ -246,9 +263,23 @@ holbertonschool-hbnb/
     │   ├── __init__.py             #    Application factory
     │   └── run.py                  #    Entry point
     ├── create_admin.py             # 🔑 Seed script — creates the first admin
-    ├── 9-hbnb_schema.sql           # 🗄️ Raw SQL schema + initial data
-    ├── 10-hbnb_erd.png             # 📊 Entity-relationship diagram
-    └── requirements.txt
+│   ├── 9-hbnb_schema.sql           # 🗄️ Raw SQL schema + initial data
+│   ├── 10-hbnb_erd.png             # 📊 Entity-relationship diagram
+│   └── requirements.txt
+│
+└── part4_shouq/                    # 🌊 Web client (HTML / CSS / JS + the API)
+    ├── index.html                  #    Task 2 — list of places + price filter
+    ├── login.html                  #    Task 1 — login form
+    ├── place.html                  #    Task 3 — details + reviews
+    ├── add_review.html             #    Task 4 — standalone review form
+    ├── styles.css                  #    Navy design system (CSS variables)
+    ├── scripts.js                  #    All client logic — tasks 1 to 4
+    ├── images/                     #    Logo, amenity icons, photography
+    ├── app/                        #    The Part 3 API, copied in + CORS
+    ├── config.py                   #    Dev / Testing / Production configs
+    ├── run.py                      #    API entry point
+    ├── seed_data.py                #    Demo users, places and reviews
+    └── README.md                   #    Part 4 documentation
 ```
 
 ---
@@ -548,6 +579,79 @@ mysql -u root -p < part3/9-hbnb_schema.sql
 
 ---
 
+## 🌊 The Web Client (Part 4)
+
+Part 4 lives in [`part4_shouq/`](part4_shouq/) and contains **both** the web client and a
+copy of the Part 3 API, so the whole stack runs from one folder.
+
+### Running it
+
+Two terminals, both inside `part4_shouq/`:
+
+```bash
+# Terminal 1 — the API
+python seed_data.py
+python run.py                # http://127.0.0.1:5000
+
+# Terminal 2 — the web client
+python -m http.server 8000   # http://localhost:8000/index.html
+```
+
+> Pages must be served over `http://`. Opening them as `file://` makes the browser
+> block every API request.
+
+### How the two halves connect
+
+```mermaid
+flowchart LR
+    subgraph Browser["🌐 Browser"]
+        H["index.html · login.html<br/>place.html · add_review.html"]
+        J["scripts.js<br/>fetch + async/await"]
+    end
+    subgraph Servers[" "]
+        W["📄 http.server :8000<br/>HTML · CSS · JS · images"]
+        A["⚙️ Flask API :5000<br/>JSON"]
+    end
+    DB[("💾 Database")]
+
+    H --> J
+    W -.->|"page load"| H
+    J <-->|"fetch + JWT<br/>(CORS allowed)"| A
+    A <--> DB
+```
+
+The browser downloads the **pages** from port 8000 and the **data** from port 5000.
+Because those are different origins, the API must grant permission explicitly:
+
+```python
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+```
+
+### The four tasks
+
+| Task | Page | What it does |
+|---|---|---|
+| 1 | `login.html` | `POST /auth/login` → JWT saved in a cookie → redirect |
+| 2 | `index.html` | `GET /places/` → cards built in JavaScript → price filter with **no** extra requests |
+| 3 | `place.html` | Reads `?place_id=` from the URL → `GET /places/<id>` → details + reviews |
+| 4 | `add_review.html` | `POST /reviews/` with `Authorization: Bearer <token>` |
+
+### Three ideas that carry the whole thing
+
+**`event.preventDefault()`** — a `<form>` reloads the page by default. Cancelling that is
+the single line separating a modern app from a 1998 website.
+
+**`authHeaders()`** — HTTP forgets you between requests, so the JWT is re-sent on every
+protected call as proof of identity.
+
+**`escapeHtml()`** — every value coming back from the API is escaped before it reaches the
+DOM. Without it, a review containing `<script>` would be executed rather than displayed.
+
+📄 **Full details, per-task walkthroughs and the complete testing guide:
+[`part4_shouq/README.md`](part4_shouq/README.md)**
+
+---
+
 ## 🧪 Testing
 
 ### 1. Swagger UI — the fastest way in
@@ -588,6 +692,11 @@ A detailed manual test log — every endpoint, its request, its actual response,
 | 8 | Map Relationships Using SQLAlchemy | ✅ |
 | 9 | SQL Scripts for Tables & Initial Data | ✅ |
 | 10 | Generate Database Diagrams (ERD) | ✅ |
+| — | **Part 4** — Design *(HTML + CSS)* | ✅ |
+| — | **Part 4** — Login *(JWT + cookie)* | ✅ |
+| — | **Part 4** — List of Places *(fetch + filter)* | ✅ |
+| — | **Part 4** — Place Details *(URL parameter)* | ✅ |
+| — | **Part 4** — Add Review *(authenticated POST)* | ✅ |
 
 ---
 
@@ -614,12 +723,16 @@ Built by three students at **Holberton School**:
 | Authentication | Flask-JWT-Extended |
 | Password hashing | Flask-Bcrypt |
 | Database | SQLite *(development)* · MySQL *(SQL task)* |
+| Cross-origin | Flask-CORS |
+| Front end | HTML5 · CSS3 *(custom properties, flexbox)* · JavaScript ES6 |
+| Front-end data | Fetch API · `async` / `await` · JWT in a cookie |
+| Typography | Poppins *(Google Fonts)* |
 | Design patterns | Facade · Repository · Application Factory |
 
 ---
 
 <div align="center">
 
-**⭐ Built layer by layer — from diagram, to endpoint, to database.**
+**⭐ Built layer by layer — from diagram, to endpoint, to database, to the screen.**
 
 </div>
