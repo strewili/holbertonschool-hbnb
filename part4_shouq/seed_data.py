@@ -25,11 +25,11 @@ AMENITIES = ["WiFi", "Air Conditioning", "Swimming Pool",
 
 PLACES = [
     ("Seaside Calm Apartment", "Quiet apartment steps from the shore, with wide windows facing the water.", 200, 21.4858, 39.1925),
-    ("Blue Hour Studio", "Bright studio with a proper desk for slow mornings and remote work.", 120, 24.7136, 46.6753),
-    ("Golden Hills Retreat", "Mountain retreat with a fireplace and a small garden.", 85, 18.2164, 42.5053),
+    ("Blue Hour Studio", "Bright studio with a proper desk for slow mornings and remote work.", 95, 24.7136, 46.6753),
+    ("Golden Hills Retreat", "Mountain retreat with a fireplace and a small garden.", 45, 18.2164, 42.5053),
     ("Dusk House", "Peaceful house with a terrace that catches the evening light.", 150, 21.2703, 40.4158),
     ("Still Water Lodge", "Lakeside lodge with a private pool and long quiet evenings.", 240, 26.6084, 37.9216),
-    ("Morning Mist Cottage", "Small cottage with a balcony over the valley.", 70, 20.0129, 41.4677),
+    ("Morning Mist Cottage", "Small cottage with a balcony over the valley.", 9, 20.0129, 41.4677),
 ]
 
 REVIEWS = [

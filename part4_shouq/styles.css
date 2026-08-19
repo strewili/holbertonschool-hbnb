@@ -272,7 +272,7 @@ nav { display: flex; align-items: center; gap: 26px; }
 .place-card {
   margin: 20px;
   padding: 10px;
-  border: 1px solid var(--line);
+  border: 1px solid #ddd;
   border-radius: 10px;
   background-color: var(--white);
   width: 336px;
@@ -463,7 +463,7 @@ nav { display: flex; align-items: center; gap: 26px; }
 .review-card {
   margin: 20px;
   padding: 10px;
-  border: 1px solid var(--line);
+  border: 1px solid #ddd;
   border-radius: 10px;
   background-color: var(--white);
   width: 440px;
